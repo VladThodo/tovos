@@ -1,0 +1,20 @@
+[org 0x7C00]
+
+.main:
+	mov ah, 0x00
+	mov al, 0x03
+
+
+.print_letter:
+	mov ah, 0x02
+	mov bh, 0x00
+	mov dh, 0x00
+	mov dl, 0x00
+	int 10h			; Set cursor position
+	mov ah, 0x0A
+	mov cx, 0x01
+	mov al, 'H'
+	int 0x10
+
+times 510 - ($ - $$) db 0x00
+db 0x55, 0xAA
