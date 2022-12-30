@@ -19,7 +19,7 @@ pm_main_init:						; Print something to our screen
 
     call screen_clear
     call print_msg
-    jmp $
+    jmp 0x08:0x8000                 ; Jump to C code
 
 screen_clear:
 
@@ -56,4 +56,4 @@ print_msg:
     ret
 message db 'Hi there from protected mode'
 
-times 1400h - ($ -$$) db 0x00      ; Make this 512 bytes long
+times 200h - ($ -$$) db 0x00      ; Make this 512 bytes long

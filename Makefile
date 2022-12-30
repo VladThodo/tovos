@@ -6,9 +6,11 @@ bin/boot.bin: src/bootloader.nasm
 
 kernel:
 	@nasm src/kernel.nasm -f bin -o bin/kernel.bin
+	@gcc -ffreestanding -c -o obj/kernel.o src/kernel.c
+	@ld -Ttext 0x7D00 --oformat binary -o bin/kernel_c.bin obj/kernel.o
 
 all: bin/boot.bin kernel
-	@cat bin/boot.bin bin/kernel.bin > bin/os.bin	
+	@cat bin/boot.bin bin/kernel.bin bin/kernel_c.bin > bin/os.bin	
 
 run: all
 	@qemu-system-x86_64 -drive format=raw,file=bin/os.bin
