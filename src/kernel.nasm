@@ -19,6 +19,7 @@ pm_main_init:						; Print something to our screen
 
     call screen_clear
     call print_msg
+    jmp $
 
 screen_clear:
 
@@ -42,9 +43,17 @@ print_msg:
     mov edx, VGA_MEM_START
     mov ebx, message
 .loop:
-    mov [edx], ebx
-
-
+    mov al, [ebx]      ; Letters from our message
+    cmp al, 0
+    je .end
+    mov [edx], al       ; First byte - character
+    add edx, 1           
+    mov byte [edx], 0x0F    ; Second byte - Color
+    add edx, 1
+    add ebx, 1    
+    jmp .loop
+.end:
+    ret
 message db 'Hi there from protected mode'
 
 times 1400h - ($ -$$) db 0x00      ; Make this 512 bytes long

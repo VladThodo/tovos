@@ -68,7 +68,6 @@ load_kernel_code:		; No error check here, add one
 	mov cl, 2
 	mov dh, 0
 	mov dl, 80h
-	;mov es, [buffer]
 	int 13h				; Hope this works
 	mov es, ax			; Idk if this does anything
 
