@@ -2,6 +2,7 @@
 [org 0x7e00]
 
 VGA_MEM_START equ 0xB8000
+C_KERNEL_MAIN equ 0x8000    ; Main entry point for our C kernel
 
 ; Yay, we finally got into protected mode and can use 32 bit instructions and more memory
 
@@ -19,7 +20,7 @@ pm_main_init:						; Print something to our screen
 
     call screen_clear
     call print_msg
-    jmp 0x08:0x8000                 ; Jump to C code
+    jmp 0x08:C_KERNEL_MAIN                 ; Handle control to C kernel 
 
 screen_clear:
 
@@ -54,6 +55,9 @@ print_msg:
     jmp .loop
 .end:
     ret
+
 message db 'Hi there from protected mode'
+db 0x00
+message2 db 'Trying to print from C. If you see this, the operation was successful! (69 lmao)'
 
 times 200h - ($ -$$) db 0x00      ; Make this 512 bytes long

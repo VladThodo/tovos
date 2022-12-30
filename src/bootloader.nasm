@@ -62,7 +62,7 @@ main_init:					; This is the entry point of our bootloader
 
 load_kernel_code:		; No error check here, add one
 	mov ah, 2h
-	mov al, 10
+	mov al, 20			; Load 20 sectors
 	mov bx, 7E00h
 	mov ch, 0
 	mov cl, 2
