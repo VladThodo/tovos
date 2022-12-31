@@ -7,8 +7,8 @@ bin/boot.bin: src/bootloader.nasm
 
 kernel:
 	@nasm src/kernel.nasm -f bin -o bin/kernel.bin
-	@gcc -ffreestanding -c -o obj/kernel.o src/kernel.c				
-	@ld -Ttext 0x8000 --oformat binary -o bin/kernel_c.bin obj/kernel.o
+	@gcc -fno-pie -ffreestanding -m32 -c -o obj/kernel.o src/kernel.c				
+	@ld -Ttext 0x8000 -m elf_i386 --oformat binary -o bin/kernel_c.bin obj/kernel.o
 
 all: bin/boot.bin kernel
 	@cat bin/boot.bin bin/kernel.bin bin/kernel_c.bin > bin/os.bin	

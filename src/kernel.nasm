@@ -18,25 +18,8 @@ pm_main_init:						; Print something to our screen
 	mov ebp, 0x90000
 	mov esp, ebp
 
-    call screen_clear
-    call print_msg
+    ;call print_msg
     jmp 0x08:C_KERNEL_MAIN                 ; Handle control to C kernel 
-
-screen_clear:
-
-.init:
-	mov edx, VGA_MEM_START
-    mov ecx, 2000   
-.loop:
-	mov byte [edx], ''
-	add edx, 1
-	mov byte [edx], 0x00
-    dec cx
-    cmp cx, 0
-    je .end
-    jmp .loop
-.end:
-    ret
 
 print_msg:
 

@@ -60,6 +60,11 @@ main_init:					; This is the entry point of our bootloader
 	mov ss, ax			; Tf does this do?
 	mov sp, 7C00h		; Somehow our stack pointer should now be located at 0x7C00 ???
 
+set_graphics_mode:		; Set our graphics mode in here using BIOS interrupts
+	mov ah, 0h
+	mov al, 3h
+	int 10h				; Call interrupt
+
 load_kernel_code:		; No error check here, add one
 	mov ah, 2h
 	mov al, 20			; Load 20 sectors
