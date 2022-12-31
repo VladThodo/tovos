@@ -7,16 +7,9 @@
 void main()
 {
    
-    // The "string" we try to print has been manually defined in our kernel.asm file
-
-    char message[10] = "Hi there!\0";
-    char message2[18]  = "I am new to this!\0";
-    
-    write_message(&message, 10, 20);
-    write_message(&message2, 5, 20);
-
-    draw_rectangle(0x4f, 70, 20, 5, 2);
-    disable_cursor();
+    draw_rectangle(0x9f, 70, 20, 5, 2);
+    write_message(&"TovOS v0.0.1a", 0x1f, 3, 33);
+    update_cursor(6, 5);
 
     while(1)
     {
@@ -27,13 +20,13 @@ void main()
 /* VGA specific functions */
 
 /* Prints a null terminated string located at specified address */
-void write_message(char *msg_address, int row, int column) 
+void write_message(char *msg_address, int color, int row, int column) 
 {
     volatile uint16_t * location = (volatile uint16_t *) VGA_MEM_START + (80 * row + column);
    
     while(*msg_address)
     {
-        *location = *msg_address | (0x0F << 8);
+        *location = *msg_address | (color << 8);
         location++;
         msg_address++;
     }
@@ -42,7 +35,7 @@ void write_message(char *msg_address, int row, int column)
 void write_char(char *c, int row, int column)
 {
     volatile uint16_t * location = (volatile uint16_t *) VGA_MEM_START + (80 * row + column);
-    *location = *c | (0x0F << 8);
+    *location = *c | (0x1F << 8);
 }
 
 /* Draws a rectangle in text mode using blank characters */
@@ -60,7 +53,7 @@ void draw_rectangle(uint8_t color, int length, int height, int start_x, int star
             }
             else 
             {
-                *(location + j + i * 80) = ' ' | (0x4f << 8);
+                *(location + j + i * 80) = ' ' | (0x1f << 8);
             }
         }
     }
@@ -91,12 +84,21 @@ void disable_cursor()
 	outb(0x3D5, 0x20);
 }
 
+void update_cursor(int x, int y)
+{
+	uint16_t pos = y * 80 + x;
+	outb(0x3D4, 0x0F);
+	outb(0x3D5, (uint8_t) (pos & 0xFF));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+}
+
 void wait_key()
 {
     char k;
     char k_old_state = inb(0x60);
-    int x = 7;
-    int y = 3;
+    int x = 6;
+    int y = 5;
 
     char kbd_US [128] =                 // Keyboard map found on https://stackoverflow.com/questions/61124564/convert-scancodes-to-ascii
     {
@@ -135,20 +137,21 @@ void wait_key()
 
     while((k = inb(0x60)) < 128)
     {
-        if(k != k_old_state)    // Something's changed
+        if(k != k_old_state && kbd_US[k] != 0)    // Something's changed
         {
             k_old_state = k;
             write_char(&kbd_US[k], y, x);
             x++;
             if(x == 73)
             {
-                x = 7;
+                x = 6;
                 y++;
             }
             if(y == 20)
             {
                 y = 3;
             }
+            update_cursor(x, y);
         }        
     }
 }

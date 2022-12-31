@@ -1,7 +1,6 @@
 out.mem
-bin/boot.bin
-bin/kernel.bin
-bin/kernel_c.bin
+bin/*
+obj/*
 bin/os.bin
+bin/kernel_c.bin
 obj/kernel.o
-
