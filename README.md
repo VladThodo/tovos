@@ -18,8 +18,7 @@ In short, the system "boots" in three stages:
 
 # The build system
 
-
-
+TovOS is built using NASM and GCC (with NASM being used for assembling the assembly code and GCC used for compiling the C code).
 
 
 
