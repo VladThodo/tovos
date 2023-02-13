@@ -4,7 +4,7 @@ Simple operating system developed in my YouTube series. The documentation is sti
 
 # The boot process
 
-TovOS only works on legacy systems that support BIOS boot. It could probably be adapted for a UEFI system as well, although that could be quite a difficult process. More info on how x86 computers start up cand be found in the links provided below.
+TovOS only works on legacy systems that support BIOS boot. It could probably be adapted for a UEFI system aswell, although that could be quite a difficult process. More info on how x86 computers start up cand be found in the links provided below.
 
 In short, the system "boots" in three stages:
 
