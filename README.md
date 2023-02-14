@@ -18,7 +18,18 @@ In short, the system "boots" in three stages:
 
 # The build system
 
-TovOS is built using NASM and GCC (with NASM being used for assembling the assembly code and GCC used for compiling the C code).
+TovOS is built using NASM and GCC (with NASM being used for assembling the assembly code and GCC used for compiling the C code). Make is used in order to simplify the build flow and allow for easier and quicker builds.
+
+The make file aseembles and compiles the code, links it and then bundles it in a disk image that is then ran by QEMU. If all the required build and simulation tools are installed `make run` is the single command needed to build and the run the system.
+
+Required build tools:
+
+- NASM
+- GCC
+- QEMU (for running the OS)
+
+Availabile make commands:
+
 
 
 
