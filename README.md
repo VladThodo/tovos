@@ -34,6 +34,12 @@ Availabile make commands:
 - `make all` builds the bootloader, kernel and then bundles them in a disk image
 - `make run` similar to `make all` but also starts QEMU
 
+Additional make commands will be added as the system is being developed and the builds become more sophysticated.
+
+# TovOS I/O
+
+The system is currently only capable of reading keyboard scan codes from port `0x60`. A better keyboard driver is currently being implemented.
+
 # Useful links
 
 - [OSDev Wiki](https://wiki.osdev.org/Expanded_Main_Page)
